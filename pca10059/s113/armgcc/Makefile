@@ -3,14 +3,18 @@ TARGETS          := nrf52840_xxaa
 OUTPUT_DIRECTORY := _build
 DFU_PORT         ?= /dev/ttyACM0
 
-SDK_ROOT := ../../../../../..
 PROJ_DIR := ../../..
+
+ifndef SDK_ROOT
+  $(error SDK_ROOT is not set)
+endif
 
 $(OUTPUT_DIRECTORY)/nrf52840_xxaa.out: \
   LINKER_SCRIPT  := estc_adverts_gcc_nrf52.ld
 
 # Source files common to all targets
 SRC_FILES += \
+  $(PROJ_DIR)/main.c \
   $(SDK_ROOT)/modules/nrfx/soc/nrfx_atomic.c \
   $(SDK_ROOT)/modules/nrfx/mdk/system_nrf52840.c \
   $(SDK_ROOT)/modules/nrfx/mdk/gcc_startup_nrf52840.S \
@@ -93,7 +97,6 @@ SRC_FILES += \
   $(SDK_ROOT)/components/ble/common/ble_conn_params.c \
   $(SDK_ROOT)/components/ble/common/ble_advdata.c \
   $(SDK_ROOT)/components/ble/ble_advertising/ble_advertising.c \
-  $(PROJ_DIR)/main.c \
 
 # Include folders common to all targets
 INC_FOLDERS += \
@@ -256,6 +259,9 @@ CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16
 # keep every function in a separate section, this allows linker to discard unused ones
 CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
 CFLAGS += -fno-builtin -fshort-enums
+
+# workaround
+CFLAGS += -Wno-array-bounds
 
 # C++ flags common to all targets
 CXXFLAGS += $(OPT)
