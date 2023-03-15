@@ -107,6 +107,14 @@ static uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID;                        
 
 static void advertising_start(void);
 
+static uint8_t manuf_data[27] = { "quote - to repeat the words" };
+static ble_advdata_manuf_data_t adv_manuf_data =
+{
+  .data.p_data = manuf_data,
+  .data.size   = sizeof(manuf_data) / sizeof(manuf_data[0]),
+  .company_identifier = 0xffff,
+};
+
 
 /**@brief Callback function for asserts in the SoftDevice.
  *
@@ -417,8 +425,9 @@ static void advertising_init(void)
     memset(&init, 0, sizeof(init));
 
     init.advdata.name_type = BLE_ADVDATA_NO_NAME;
+    init.advdata.p_manuf_specific_data = &adv_manuf_data;
 
-    init.srdata.name_type  = BLE_ADVDATA_FULL_NAME;
+    init.srdata.name_type = BLE_ADVDATA_FULL_NAME;
 
     init.config.ble_adv_fast_enabled  = true;
     init.config.ble_adv_fast_interval = APP_ADV_INTERVAL;
