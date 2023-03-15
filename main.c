@@ -416,7 +416,9 @@ static void advertising_init(void)
 
     memset(&init, 0, sizeof(init));
 
-    init.advdata.name_type            = BLE_ADVDATA_FULL_NAME;
+    init.advdata.name_type = BLE_ADVDATA_NO_NAME;
+
+    init.srdata.name_type  = BLE_ADVDATA_FULL_NAME;
 
     init.config.ble_adv_fast_enabled  = true;
     init.config.ble_adv_fast_interval = APP_ADV_INTERVAL;
