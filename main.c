@@ -80,6 +80,7 @@
 #include "nrf_log_default_backends.h"
 #include "nrf_log_backend_usb.h"
 
+#include "uptime-observer.h"
 #include "estc_service.h"
 
 #define DEVICE_NAME                     "ESTC-SVC"                              /**< Name of device. Will be included in the advertising data. */
@@ -416,6 +417,9 @@ static void ble_stack_init(void)
 
     // Register a handler for BLE events.
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
+
+    NRF_SDH_BLE_OBSERVER(m_estc_service, APP_BLE_OBSERVER_PRIO,
+                         estc_service_ble_evt_handler, (void *) &m_estc_service);
 }
 
 
@@ -550,6 +554,7 @@ int main(void)
     services_init();
     advertising_init();
     conn_params_init();
+    uptime_observer_init();
 
     // Start execution.
     NRF_LOG_INFO("ESTC GATT service example started");
