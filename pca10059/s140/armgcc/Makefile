@@ -15,6 +15,7 @@ $(OUTPUT_DIRECTORY)/nrf52840_xxaa.out: \
 # Source files common to all targets
 SRC_FILES += \
   $(PROJ_DIR)/estc_service.c \
+  $(PROJ_DIR)/uptime-observer.c \
   $(PROJ_DIR)/main.c \
   $(SDK_ROOT)/modules/nrfx/soc/nrfx_atomic.c \
   $(SDK_ROOT)/modules/nrfx/mdk/system_nrf52840.c \
